@@ -1,68 +1,183 @@
-/*  THIS PROGRAM IS FOR STUDENT REGISTRATION BASED ON THEIR MARKS AND AVAILABLE SEATS IN THE PERTICULAR DEPARTMENTS
+/* This code is implementing all the basic operations that can be don on a single linked list
+  
+    Author: SWATHI M HUTTADA
+    Reg no: 201046019
+    Dept: BIG DATA AND DATA ANALYTICS
     
-    It provides the admin to store the admission details of students based on their marks that are between 1 to 10 
-	Also provides option to manage students data who are in waiting list
-	Contains a declaration form having instructions to be followed by the admin to use the program.
-	  
-    
-    Author:        Swathi M Huttada
-	Reg Number:    201046019
-    Department:    Big data and data analytics
-    Date:          03/11/2020
-    
+    THIS IS AN ASSERT BASED CODE 
+
+
 */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "functions.h"
 #include <assert.h>
+#include "slist.h"
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+void test_empty_list(){
+	Slist s1 = slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+}
+
+void test_add_at_head(){
+	Slist s1=slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list=slist_addnode_head(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_head(list,20);
+	list=slist_addnode_head(list,30);
+	assert(slist_length(list)==3);
+	assert(slist_lookup(list,20)==1);
+}
+
+void test_delete_head(){
+	Slist s1 = slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list=slist_addnode_head(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_head(list,20);
+	list=slist_addnode_head(list,30);
+	assert(slist_length(list)==3);
+	assert(slist_lookup(list,20)==1);
+	list=slist_addnode_head(list,40);
+	list=slist_addnode_head(list,50);
+	list=slist_deletenode_head(list);
+	assert(slist_lookup(list,50)==0);
+	assert(slist_lookup(list,20)==1);
+	assert(slist_length(list)==4);
+}
+
+void test_add_at_tail(){
+	Slist s1 = slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list = slist_addnode_tail(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_tail(list,20);
+	list=slist_addnode_tail(list,30);
+	assert(slist_length(list)==3);	
+}
+void test_delete_tail(){
+	Slist s1=slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list=slist_addnode_tail(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_tail(list,20);
+	list=slist_addnode_tail(list,30);
+	assert(slist_length(list)==3);
+	list=slist_deletenode_tail(list);
+	assert(slist_length(list)==2);
+	assert(slist_lookup(list,30)==0);
+	assert(slist_lookup(list,20)==1);
+	list=slist_addnode_tail(list,40);
+	assert(slist_length(list)==3);
+	assert(slist_lookup(list,40)==1);
+}
+void test_min(){
+	Slist s1=slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list=slist_addnode_tail(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_tail(list,20);
+	list=slist_addnode_tail(list,30);
+	assert(slist_length(list)==3);
+	assert(slist_min(list)==10);
+	list=slist_addnode_head(list,5);
+	assert(slist_min(list)==5);
+}
+void test_max(){
+	Slist s1=slist_new();
+	Slist *list = &s1;
+	assert(slist_length(list)==0);
+	list=slist_addnode_tail(list,10);
+	assert(slist_length(list)==1);
+	list=slist_addnode_tail(list,20);
+	list=slist_addnode_tail(list,30);
+	assert(slist_length(list)==3);
+	assert(slist_max(list)==30);
+	list=slist_addnode_head(list,45);
+	assert(slist_max(list)==45);
+}
+void test_same_list(){
+	Slist s1=slist_new();
+	Slist s2=slist_new();
+	Slist *list1=&s1;
+	Slist *list2=&s2;
+	list1=slist_addnode_head(list1,10);
+	assert(slist_length(list1)==1);
+	list2=slist_addnode_head(list2,10);
+	assert(slist_length(list2)==1);
+	list1=slist_addnode_head(list1,20);
+	assert(slist_length(list1)==2);
+	list2=slist_addnode_head(list2,20);
+	assert(slist_length(list2)==2);
+	list1=slist_addnode_head(list1,30);
+	assert(slist_length(list1)==3);
+	list2=slist_addnode_head(list2,30);
+	assert(slist_length(list2)==3);
+	assert(slist_same(list1,list2)==1);
+}
+
+void test_union(){
+	Slist s1=slist_new();
+	Slist s2=slist_new();
+	Slist *list1=&s1;
+	Slist *list2=&s2;
+	list1=slist_addnode_head(list1,10);
+	assert(slist_length(list1)==1);
+	list2=slist_addnode_head(list2,50);
+	assert(slist_length(list2)==1);
+	list1=slist_addnode_head(list1,20);
+	assert(slist_length(list1)==2);
+	list2=slist_addnode_head(list2,40);
+	assert(slist_length(list2)==2);
+	list1=slist_addnode_head(list1,30);
+	assert(slist_length(list1)==3);
+	list2=slist_addnode_head(list2,60);
+	assert(slist_length(list2)==3);
+	Slist *list3=slist_union(list1,list2);
+	assert(slist_length(list3)==6);
+}
+
+void test_intersection(){
+	Slist s1=slist_new();
+	Slist s2=slist_new();
+	Slist *list1=&s1;
+	Slist *list2=&s2;
+	list1=slist_addnode_head(list1,10);
+	assert(slist_length(list1)==1);
+	list2=slist_addnode_head(list2,50);
+	assert(slist_length(list2)==1);
+	list1=slist_addnode_head(list1,20);
+	assert(slist_length(list1)==2);
+	list2=slist_addnode_head(list2,10);
+	assert(slist_length(list2)==2);
+	list1=slist_addnode_head(list1,30);
+	assert(slist_length(list1)==3);
+	list2=slist_addnode_head(list2,20);
+	assert(slist_length(list2)==3);
+	Slist *list3=slist_inter(list1,list2);
+	assert(slist_length(list3)==2);
+	
+}
+
+
 
 int main(int argc, char *argv[]) {
-	int choice;
-	int accept;
-	Student stu[TOTAL_STUDENT];
-	accept=declaration();
-	assert(accept==1);
-
-	printf("\n\n\n\n\n\n\n\n\n\n\n--------------------------------------ADMISSION PROCESS---------------------------------------------\n\n");
-	printf("1. DECLARE TOTAL SEATS IN RESPECTIVE PROGRAM\n\n");
-    printf("2. STUDENT REGISTRATION\n\n");
-    printf("3. TOTAL FILLED SEATS IN PROGRAM\n\n");
-	printf("4. STUDENT INFORMATION\n\n");
-	printf("5. WAITING STUDENTS DETAILS\n\n");
-	printf("6. UPDATE WAITING STUDENT DETAILS\n\n");
-	printf("0. TO EXIT\n\n");
-	do{
-	    printf("\nCHOOSE FROM ABOVE OPTIONS:\n");
-	    scanf("%d",&choice);
-	    switch(choice){
-	    	
-	    	case 1: manage_seats();
-			break;
-			
-			case 2:	student_reg(stu);
-		    break;
-			
-			case 3: display_total_filled_seats();
-			break;
-			    
-			case 4: display(stu);
-			break;    
-			
-			case 5: display_waiting_students(stu);
-			break;
-			
-			case 6: waiting_students(stu);
-			break;
-			
-			default: assert(choice<7);                    //assert failed if we give wrong choice
-			    
-			}
-		
-		
-	}while(choice!=0);
-	
+	test_empty_list();
+	test_add_at_head();
+	test_delete_head();
+	test_add_at_tail();
+	test_delete_tail();
+	test_min();
+	test_max();
+	test_same_list();
+	test_union();
+	test_intersection();
 	return 0;
 }
